@@ -127,14 +127,14 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
   //       .catch(error => agent.add(`There was an error.  Your service returned a ` + error.response.status + ` ` + error.response.reason))
   //   } 
   // }
-  // function getValue(agent) {
-  //   //console.log("Getting Value");
-  //   if(checkSettings(agent)) {
-  //     return instance.get(dataURL)
-  //       .then(response => agent.add(`The value of your account is $` + ((response.data.realBalance + response.data.DCABalance + response.data.pairsBalance) * response.data.BTCUSDTPrice).toFixed(2) ))
-  //       .catch(error => agent.add(`There was an error.  Your service returned a ` + error.response.status + ` ` + error.response.reason))
-  //   }
-  // }
+  function getValue(agent) {
+    //console.log("Getting Value");
+    if(checkSettings(agent)) {
+      return instance.get(dataURL)
+        .then(response => agent.add(`The value of your account is $` + ((response.data.realBalance + response.data.totalDCACurrentValue + response.data.totalPairsCurrentValue) * response.data.BTCUSDTPrice).toFixed(2) ))
+        .catch(error => agent.add(`There was an error.  Your service returned a ` + error.response.status + ` ` + error.response.reason))
+    }
+  }
 
   // function getDCAValue(agent) {
   //   //console.log("Getting DCA Value");
@@ -222,7 +222,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
   intentMap.set('Default Welcome Intent', welcome);
   intentMap.set('Default Fallback Intent', fallback);
   // intentMap.set('Get Balance', getBalance);
-  // intentMap.set('Get Value', getValue);
+  intentMap.set('Get Value', getValue);
   // intentMap.set(`Get DCA Balance`, getDCABalance);
   // intentMap.set(`Get DCA Value`, getDCAValue);
   intentMap.set('Get Exchange', getExchange);
